@@ -11,6 +11,7 @@ A simple and interactive to-do list built with **React** and **Vite**. Tasks per
 - **Show only incomplete** — filter the list to display only unfinished tasks.
 - **Sort by priority** — reorder tasks by their priority value.
 - **Persistence** — tasks are saved to `localStorage` and restored on reload.
+- **Default tasks** — the app starts with 5 sample tasks on first load (until you save your own).
 
 ## Tech Stack
 
@@ -23,7 +24,7 @@ A simple and interactive to-do list built with **React** and **Vite**. Tasks per
 
 ```
 src/
-├── App.jsx                 # Root component — state, handlers, layout
+├── App.jsx                 # Root component — wiring, layout, local UI state
 ├── main.jsx                # Entry point
 ├── App.css                 # Global styles
 ├── components/
@@ -32,8 +33,10 @@ src/
 │   ├── TaskList.jsx        # Renders the list of tasks
 │   ├── TaskItem.jsx        # Single task row (view mode)
 │   └── EditTaskForm.jsx    # Inline edit form for a task
+├── reducers/
+│   └── taskReducer.js      # useReducer — all task mutations & persistence
 └── utils/
-    └── localStorageUtils.js # localStorage read/write helpers
+    └── localStorageUtils.js # localStorage read/write helpers + default tasks
 ```
 
 ## Getting Started
@@ -76,7 +79,15 @@ pnpm lint
 
 ## How It Works
 
-State (the list of tasks) is managed in `App` with React hooks. Every mutation — add, edit, delete, toggle done, and sort — updates React state and immediately persists the updated array to `localStorage` via the helpers in `src/utils/localStorageUtils.js`.
+Task state is managed with a `useReducer` hook. `App.jsx` declares the reducer and dispatches actions (add, edit, delete, toggle done, sort) from the UI, while all state-transition logic — and the immediate `localStorage` persistence — lives in `src/reducers/taskReducer.js`. The reducer handles these action types:
+
+- `ADD` — append a new task
+- `REMOVE` — delete a task by id
+- `UPDATE` — change a task's text and priority
+- `TOGGLE_DONE` — flip a task's completed state
+- `SORT` — order tasks by priority (ascending)
+
+On first load, `src/utils/localStorageUtils.js` reads saved tasks; if none are saved (or the saved list is empty), it returns a set of 5 `defaultTasks`.
 
 A task is stored with the shape:
 
