@@ -1,40 +1,26 @@
-import { useState } from "react"
-import TaskForm from "./components/TaskForm"
-import TaskControls from "./components/TaskControls"
-import TaskList from "./components/TaskList"
+import { useState } from 'react'
+import TaskForm from './components/TaskForm'
+import TaskControls from './components/TaskControls'
+import TaskList from './components/TaskList'
+import { 
+  getStoredTasks, 
+  updateLocalStorage
+} from './utils/localStorageUtils.js'
 
 const App = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: 'Buy groceries',
-      priority: 4,
-      done: true
-    },
-    {
-      id: 2,
-      text: 'Have a walk',
-      priority: 2,
-      done: false
-    },
-    {
-      id: 3,
-      text: 'Read a book',
-      priority: 3,
-      done: false
-    }
-  ])
-
+  const [tasks, setTasks] = useState(getStoredTasks())
   const [showOnlyIncomplete, setShowOnlyIncomplete] = useState(false)
 
   const addTask = (newTask) => {
     const updatedTasks = [...tasks, newTask] 
     setTasks(updatedTasks)
+    updateLocalStorage(updatedTasks)
   }
 
   const removeTask = (id) => {
     const updatedTasks = tasks.filter(t => t.id !== id)
     setTasks(updatedTasks)
+    updateLocalStorage(updatedTasks)
   }
 
   const updateTask = ({ taskId, editText, editPriority }) => {
@@ -45,6 +31,7 @@ const App = () => {
     )
 
     setTasks(updatedTasks)
+    updateLocalStorage(updatedTasks)
   }
 
   const toggleTaskDone = (id) => {
@@ -52,6 +39,7 @@ const App = () => {
       task.id === id? {...task, done: !task.done } : task
     )
     setTasks(updatedTasks)
+    updateLocalStorage(updatedTasks)
   }
 
   const sortTasks = () => {
@@ -59,6 +47,7 @@ const App = () => {
       .sort((a,b) => a.priority - b.priority)
 
     setTasks(sortedTasks)
+    updateLocalStorage(updatedTasks)
   }
 
   return (
