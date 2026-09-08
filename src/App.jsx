@@ -32,6 +32,11 @@ const App = () => {
     setTasks(updatedTasks)
   }
 
+  const removeTask = (id) => {
+    const updatedTasks = tasks.filter(t => t.id !== id)
+    setTasks(updatedTasks)
+  }
+
   const toggleTaskDone = (id) => {
     const updatedTasks = tasks.map(task => 
       task.id === id? {...task, done: !task.done } : task
@@ -66,6 +71,7 @@ const App = () => {
         tasks={tasks} 
         showOnlyIncomplete={showOnlyIncomplete}
         toggleTaskDone={toggleTaskDone}
+        removeTask={removeTask}
       />
     </div>
   )

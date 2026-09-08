@@ -2,7 +2,8 @@ import { Trash, Pencil } from 'lucide-react'
 
 const TaskItem = ({ 
   task,
-  toggleTaskDone
+  toggleTaskDone,
+  removeTask
 }) => {
   return (
     <>
@@ -39,7 +40,7 @@ const TaskItem = ({
           </span>
         </span>
       </div>
-      <div>
+      <div style={{ display: 'flex', gap: '5px'}}>
         <button
           style={{
               borderRadius: '50%',
@@ -53,6 +54,7 @@ const TaskItem = ({
           <Pencil size={16} />
         </button>
         <button
+          onClick={() => removeTask(task.id)}
           style={{
               borderRadius: '50%',
               backgroundColor: '#dc3545',
