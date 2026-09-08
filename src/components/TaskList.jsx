@@ -1,10 +1,12 @@
 import TaskItem from "./TaskItem"
 import EditTaskForm from "./EditTaskForm"
 
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks, showOnlyIncomplete }) => {
   return (
     <ul>
-      {tasks.map(task => (
+      {tasks
+        .filter(task => !showOnlyIncomplete || !task.done)
+        .map(task => (
         <li
           key={task.id}
           style={{
