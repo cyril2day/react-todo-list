@@ -8,8 +8,9 @@ export const defaultTasks = [
 
 export const getStoredTasks = () => {
   const savedTasks = localStorage.getItem('tasks')
+  const parsedTasks = savedTasks ? JSON.parse(savedTasks) : []
 
-  return savedTasks ? JSON.parse(savedTasks) : defaultTasks
+  return parsedTasks.length ? parsedTasks : defaultTasks
 }
 
 export const updateLocalStorage = (tasks) => {
