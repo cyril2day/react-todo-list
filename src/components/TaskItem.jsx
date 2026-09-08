@@ -3,7 +3,8 @@ import { Trash, Pencil } from 'lucide-react'
 const TaskItem = ({ 
   task,
   toggleTaskDone,
-  removeTask
+  removeTask,
+  setEditingTaskId
 }) => {
   return (
     <>
@@ -42,6 +43,7 @@ const TaskItem = ({
       </div>
       <div style={{ display: 'flex', gap: '5px'}}>
         <button
+          onClick={() => setEditingTaskId(task.id)}
           style={{
               borderRadius: '50%',
               backgroundColor: '#ffc107',

@@ -1,12 +1,16 @@
-import TaskItem from "./TaskItem"
-import EditTaskForm from "./EditTaskForm"
+import TaskItem from './TaskItem'
+import EditTaskForm from './EditTaskForm'
+import { useState } from 'react'
 
 const TaskList = ({ 
   tasks, 
   showOnlyIncomplete,
   toggleTaskDone,
-  removeTask
+  removeTask,
+  updateTask
 }) => {
+  const [editingnTaskId, setEditingTaskId] = useState(null)
+
   return (
     <ul>
       {tasks
@@ -23,11 +27,19 @@ const TaskList = ({
               gap: '10px'
           }}
         >
-          <TaskItem
-            task={task}
-            toggleTaskDone={toggleTaskDone}
-            removeTask={removeTask}
-          />
+          {editingnTaskId === task.id 
+            ? <EditTaskForm 
+                task={task} 
+                setEditingTaskId={setEditingTaskId}
+                updateTask={updateTask}
+              />
+            : <TaskItem
+                task={task}
+                removeTask={removeTask}
+                toggleTaskDone={toggleTaskDone}
+                setEditingTaskId={setEditingTaskId}
+              />
+          }
         </li>
       ))}
     </ul>
